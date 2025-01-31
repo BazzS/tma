@@ -1,16 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Telegram Mini App</title>
-    <link rel="stylesheet" href="styles.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        /* Фон */
+        body {
+            background: linear-gradient(135deg, #4b6cb7, #182848);
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Контейнер */
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+        }
+
+        /* Кнопка */
+        .btn {
+            background: #08aeea;
+            background: linear-gradient(to right, #08aeea, #2af598);
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: linear-gradient(to right, #2af598, #08aeea);
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-    <h1 id="greeting">Hello, Telegram User!</h1>
-</div>
-<script src="script.js"></script>
+
+    <div class="container">
+        <h1>Добро пожаловать!</h1>
+        <p id="user-info">Загрузка...</p>
+        <button class="btn" onclick="sendData()">Отправить данные</button>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand(); // Разворачиваем Web App на весь экран
+
+        // Отображаем имя пользователя
+        document.getElementById("user-info").innerText = `Привет, ${tg.initDataUnsafe?.user?.first_name || "гость"}!`;
+
+        function sendData() {
+            tg.sendData(JSON.stringify({ action: "start" })); // Отправка данных в бот
+        }
+    </script>
+
 </body>
 </html>
