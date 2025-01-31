@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Mini App</title>
+    <title>Telegram Mini App - Business Card</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        /* Фон */
+        /* Background */
         body {
-            background: linear-gradient(135deg, #4b6cb7, #182848);
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
             color: white;
             font-family: Arial, sans-serif;
             text-align: center;
@@ -20,7 +20,7 @@
             align-items: center;
         }
 
-        /* Контейнер */
+        /* Container */
         .container {
             background: rgba(255, 255, 255, 0.1);
             padding: 20px;
@@ -30,7 +30,7 @@
             max-width: 400px;
         }
 
-        /* Кнопка */
+        /* Button */
         .btn {
             background: #08aeea;
             background: linear-gradient(to right, #08aeea, #2af598);
@@ -40,7 +40,7 @@
             color: white;
             border-radius: 5px;
             cursor: pointer;
-            margin-top: 20px;
+            margin-top: 10px;
             width: 100%;
             transition: 0.3s;
         }
@@ -48,27 +48,31 @@
         .btn:hover {
             background: linear-gradient(to right, #2af598, #08aeea);
         }
+
+        /* Hidden menu */
+        .menu {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .menu.active {
+            display: flex;
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Добро пожаловать!</h1>
-        <p id="user-info">Загрузка...</p>
-        <button class="btn" onclick="sendData()">Отправить данные</button>
-    </div>
+        <h1>Welcome!</h1>
+        <p id="user-info">Loading...</p>
 
-    <script>
-        let tg = window.Telegram.WebApp;
-        tg.expand(); // Разворачиваем Web App на весь экран
+        <button class="btn" onclick="sendData()">Contact</button>
+        <button class="btn" onclick="toggleMenu()">Menu</button>
 
-        // Отображаем имя пользователя
-        document.getElementById("user-info").innerText = `Привет, ${tg.initDataUnsafe?.user?.first_name || "гость"}!`;
-
-        function sendData() {
-            tg.sendData(JSON.stringify({ action: "start" })); // Отправка данных в бот
-        }
-    </script>
-
-</body>
-</html>
+        <div id="menu" class="menu">
+            <button class="btn" onclick="showSection('Automation')">Automation</button>
+            <button class="btn" onclick="showSection('Bots')">Bots</button>
+            <button class="btn" onclick="showSection('Mini Apps')">Mini Apps</button>
+            <button class="btn" onclick="toggleMenu(
