@@ -1,29 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Mini App - Business Card</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+let tg = window.Telegram.WebApp;
+tg.expand(); // Expand to full screen
 
-    <div class="container">
-        <h1>Welcome!</h1>
-        <p id="user-info">Loading...</p>
+// Get user info safely
+let user = tg.initDataUnsafe?.user;
+let userName = user?.first_name || user?.username || "Guest";
+document.getElementById("user-info").innerText = `Hello, ${userName}!`;
 
-        <button class="btn" id="contact-btn">Contact</button>
-        <button class="btn" id="menu-btn">Menu</button>
+// Elements
+let menu = document.getElementById("menu");
+let menuBtn = document.getElementById("menu-btn");
+let contactBtn = document.getElementById("contact-btn");
+let backBtn = document.getElementById("back-btn");
 
-        <div id="menu" class="menu">
-            <button class="btn menu-item" data-action="Automation">Automation</button>
-            <button class="btn menu-item" data-action="Bots">Bots</button>
-            <button class="btn menu-item" data-action="Mini Apps">Mini Apps</button>
-            <button class="btn" id="back-btn">Back</button>
-        </div>
-    </div>
+// Toggle menu visibility
+menuBtn.addEventListener("click", function () {
+    menu.classList.add("active");
+    menuBtn.style.display = "none";    // Скрываем кнопку Menu
+    contactBtn.style.display = "none"; // Скрываем кнопку Contact
+});
 
-    <script src="script.js"></script>
-</body>
-</html>
+// Hide menu and restore buttons
+backBtn.addEventListener("click", function () {
+    menu.classList.remove("active");
+    menuBtn.style.display = "block";    // Показываем кнопку Menu
+    contactBtn.style.display = "block"; // Показываем кнопку Contact
+});
+
+// Send data when clicking "Contact"
+contactBtn.addEventListener("click", function () {
+    tg.sendData(JSON.stringify({ action: "contact" }));
+});
+
+// Handle menu item clicks
+document.querySelectorAll(".menu-item").forEach(button => {
+    button.addEventListener("click", function () {
+        let action = this.dataset.action;
+        tg.sendData(JSON.stringify({ action }));
+    });
+});
