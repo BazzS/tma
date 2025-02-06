@@ -4,7 +4,7 @@ tg.expand(); // Expand to full screen
 // Get user info safely
 let user = tg.initDataUnsafe?.user;
 //let userName = user?.first_name || user?.username || "Guest";
-let userName = tg.initDataUnsafe.user.username
+let userName = tg.initDataUnsafe.user.username;
 document.getElementById("user-info").innerText = `Hello, ${userName}!`;
 
 // Elements
