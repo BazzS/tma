@@ -6,7 +6,6 @@ let user = tg.initDataUnsafe?.user;
 let userName = user?.first_name || user?.username || "Guest";
 document.getElementById("user-info").innerText = `Hello, ${userName}!`;
 
-
 // Основные элементы
 let menu = document.getElementById("menu");
 let miniAppsMenu = document.getElementById("mini-apps-menu");
@@ -15,6 +14,11 @@ let contactBtn = document.getElementById("contact-btn");
 let backBtn = document.getElementById("back-btn");
 let miniAppsBtn = document.getElementById("mini-apps-btn");
 let miniBackBtn = document.getElementById("mini-back-btn");
+
+// Задний фон
+let originalBackground = document.body.style.background;
+let originalColor = document.body.style.color;
+let themeToggled = false; 
 
 // Toggle menu visibility
 menuBtn.addEventListener("click", function () {
@@ -52,14 +56,21 @@ document.querySelectorAll(".mini-item").forEach(button => {
                 tg.showAlert(`User: ${userName}`);
                 break;
             case "theme":
-                document.body.style.background = tg.colorScheme === "dark" ? "#000" : "#fff";
-                document.body.style.color = tg.colorScheme === "dark" ? "#fff" : "#000";
+                if (!themeToggled) {
+                    document.body.style.background = tg.colorScheme === "dark" ? "#000" : "#fff";
+                    document.body.style.color = tg.colorScheme === "dark" ? "#fff" : "#000";
+                } else {
+                    document.body.style.background = originalBackground;
+                    document.body.style.color = originalColor;
+                }
+                themeToggled = !themeToggled;
                 break;
             case "close":
                 tg.close();
                 break;
             case "send-data":
                 tg.sendData(JSON.stringify({ action: "sent from Mini Apps" }));
+                tg.showAlert("Data sent to bot! ✅");
                 break;
             case "popup":
                 tg.showPopup({
