@@ -1,7 +1,7 @@
 let tg = window.Telegram.WebApp;
-tg.expand(); // Expand to full screen
+tg.expand(); // Разворачиваем Mini App на весь экран
 
-// Get user info safely
+// Получение информации о пользователе
 let user = tg.initDataUnsafe?.user;
 let userName = user?.first_name || user?.username || "Guest";
 document.getElementById("user-info").innerText = `Hello, ${userName}!`;
@@ -15,23 +15,23 @@ let backBtn = document.getElementById("back-btn");
 let miniAppsBtn = document.getElementById("mini-apps-btn");
 let miniBackBtn = document.getElementById("mini-back-btn");
 
-// Задний фон
-let originalBackground = document.body.style.background;
-let originalColor = document.body.style.color;
-let themeToggled = false; 
+// Запоминаем исходные цвета
+let originalBackground = getComputedStyle(document.body).backgroundColor;
+let originalColor = getComputedStyle(document.body).color;
+let themeToggled = false; // Флаг для переключения тем
 
-// Toggle menu visibility
+// Открытие основного меню
 menuBtn.addEventListener("click", function () {
     menu.classList.add("active");
-    menuBtn.style.display = "none";    // Скрываем кнопку Menu
-    contactBtn.style.display = "none"; // Скрываем кнопку Contact
+    menuBtn.style.display = "none";
+    contactBtn.style.display = "none";
 });
 
-// Hide menu and restore buttons
+// Закрытие основного меню
 backBtn.addEventListener("click", function () {
     menu.classList.remove("active");
-    menuBtn.style.display = "block";    // Показываем кнопку Menu
-    contactBtn.style.display = "block"; // Показываем кнопку Contact
+    menuBtn.style.display = "block";
+    contactBtn.style.display = "block";
 });
 
 // Открытие подменю Mini Apps
@@ -55,23 +55,29 @@ document.querySelectorAll(".mini-item").forEach(button => {
             case "user-data":
                 tg.showAlert(`User: ${userName}`);
                 break;
+
             case "theme":
                 if (!themeToggled) {
-                    document.body.style.background = tg.colorScheme === "dark" ? "#000" : "#fff";
+                    document.body.style.backgroundColor = tg.colorScheme === "dark" ? "#000" : "#fff";
                     document.body.style.color = tg.colorScheme === "dark" ? "#fff" : "#000";
                 } else {
-                    document.body.style.background = originalBackground;
+                    document.body.style.backgroundColor = originalBackground;
                     document.body.style.color = originalColor;
                 }
                 themeToggled = !themeToggled;
                 break;
+
             case "close":
                 tg.close();
                 break;
+
             case "send-data":
                 tg.sendData(JSON.stringify({ action: "sent from Mini Apps" }));
-                tg.showAlert("Data sent to bot! ✅");
+                setTimeout(() => {
+                    tg.showAlert("✅ Data sent to bot!");
+                }, 500); // Небольшая задержка для уверенности, что данные отправлены
                 break;
+
             case "popup":
                 tg.showPopup({
                     title: "Mini App Alert",
@@ -79,24 +85,13 @@ document.querySelectorAll(".mini-item").forEach(button => {
                     buttons: [{ text: "OK", type: "ok" }]
                 });
                 break;
+
             case "haptic":
                 tg.HapticFeedback.impactOccurred("medium");
                 break;
+
             default:
                 console.log("Unknown feature");
         }
-    });
-});
-
-// Send data when clicking "Contact"
-contactBtn.addEventListener("click", function () {
-    tg.sendData(JSON.stringify({ action: "contact" }));
-});
-
-// Handle menu item clicks
-document.querySelectorAll(".menu-item").forEach(button => {
-    button.addEventListener("click", function () {
-        let action = this.dataset.action;
-        tg.sendData(JSON.stringify({ action }));
     });
 });
