@@ -1,4 +1,4 @@
-/* Background */
+/* Основные стили */
 body {
     background: linear-gradient(135deg, #1e3c72, #2a5298);
     color: white;
@@ -12,7 +12,7 @@ body {
     align-items: center;
 }
 
-/* Container */
+/* Контейнер */
 .container {
     background: rgba(255, 255, 255, 0.1);
     padding: 20px;
@@ -22,7 +22,7 @@ body {
     max-width: 400px;
 }
 
-/* Button */
+/* Кнопки */
 .btn {
     background: #08aeea;
     background: linear-gradient(to right, #08aeea, #2af598);
@@ -41,7 +41,7 @@ body {
     background: linear-gradient(to right, #2af598, #08aeea);
 }
 
-/* Hidden menu */
+/* Меню */
 .menu {
     display: none;
     flex-direction: column;
