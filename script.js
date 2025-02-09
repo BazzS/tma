@@ -62,10 +62,6 @@ document.querySelectorAll(".mini-item").forEach(button => {
             case "theme":
                 try {
                     themeToggled = !themeToggled; // Переключаем флаг
-            
-                    console.log("Theme toggled:", themeToggled);
-                    console.log("Before change -> Background:", document.body.style.backgroundColor);
-            
                     if (themeToggled) {
                         // Устанавливаем стандартную тему Telegram
                         document.body.style.backgroundColor = tg.themeParams.bg_color || "#ffffff"; 
@@ -75,13 +71,12 @@ document.querySelectorAll(".mini-item").forEach(button => {
                         document.body.style.backgroundColor = originalBackground; 
                         document.body.style.color = originalColor;
                     }
-            
-                    console.log("After change -> Background:", document.body.style.backgroundColor);
-                    break;
+                    break; // Важно: break должен быть здесь, чтобы не перейти к следующему case
                 } catch (error) {
                     console.error("Theme switch error:", error);
                     tg.showAlert(`⚠️ Ошибка: ${error.message}`);
                 }
+                break; // Дополнит
 
             case "close":
                 tg.close();
