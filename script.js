@@ -42,12 +42,13 @@ miniBackBtn.addEventListener("click", function () {
 });
 
 // Переключение тем
-let themeToggled = false; // Флаг для отслеживания переключения
-let originalBackground = tg.themeParams?.bg_color || "blue"; // Используем цвет фона из параметров темы
-let originalColor = getComputedStyle(document.body).color;
+let theme = tg.colorScheme; // Получаем текущую тему
+console.log("Current theme:", theme); // Выведет "light" или "dark"
+// let originalBackground = tg.themeParams?.bg_color || "blue"; // Используем цвет фона из параметров темы
+// let originalColor = getComputedStyle(document.body).color;
 
-console.log("Original Background:", originalBackground);
-console.log("Original Text Color:", originalColor);
+// console.log("Original Background:", originalBackground);
+// console.log("Original Text Color:", originalColor);
 
 // Логика для кнопок внутри Mini Apps Menu
 document.addEventListener("click", function(event) {
@@ -62,26 +63,13 @@ document.addEventListener("click", function(event) {
                 break;
 
             case "theme":
-                try {
-                    themeToggled = !themeToggled; // Переключаем флаг
-            
-                    if (themeToggled) {
-                        // Устанавливаем стандартную тему Telegram
-                        document.body.style.backgroundColor = tg.themeParams?.bg_color || "#ffffff"; 
-                        document.body.style.color = tg.themeParams?.text_color || "#000000";
-                    } else {
-                        // Возвращаемся к исходному фону
-                        document.body.style.backgroundColor = originalBackground; 
-                        document.body.style.color = originalColor;
-                    }
-                    break; // Важно: break должен быть здесь, чтобы не перейти к следующему case
-                } catch (error) {
-                    console.error("Theme switch error:", error);
-                    if (tg.showAlert) {
-                        tg.showAlert(`⚠️ Ошибка: ${error.message}`);
-                    }
+                if (tg.colorScheme === "dark") {
+                    document.body.style.backgroundColor = tg.themeParams.bg_color || "#1c1c1e"; 
+                    document.body.style.color = tg.themeParams.text_color || "#ffffff";
+                } else {
+                    document.body.style.backgroundColor = tg.themeParams.bg_color || "#ffffff"; 
+                    document.body.style.color = tg.themeParams.text_color || "#000000";
                 }
-                break;
 
             case "close":
                 if (tg.close) {
