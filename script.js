@@ -43,7 +43,7 @@ miniBackBtn.addEventListener("click", function () {
 
 // Переключение тем
 let themeToggled = false; // Флаг для отслеживания переключения
-let originalBackground = "blue"; // Устанавливаем начальный синий фон
+let originalBackground = rgb(0, 0, 255);
 let originalColor = getComputedStyle(document.body).color;
 
 console.log("Original Background:", originalBackground);
