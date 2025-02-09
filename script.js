@@ -70,6 +70,7 @@ document.addEventListener("click", function(event) {
                     document.body.style.backgroundColor = tg.themeParams.bg_color || "#ffffff"; 
                     document.body.style.color = tg.themeParams.text_color || "#000000";
                 }
+                break;
 
             case "close":
                 if (tg.close) {
