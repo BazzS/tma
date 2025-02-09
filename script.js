@@ -46,6 +46,14 @@ miniBackBtn.addEventListener("click", function () {
     menu.classList.add("active");
 });
 
+// Переключение тем
+let themeToggled = false; // Флаг для отслеживания переключения
+let originalBackground = getComputedStyle(document.body).backgroundColor;
+let originalColor = getComputedStyle(document.body).color;
+
+console.log("Original Background:", originalBackground);
+console.log("Original Text Color:", originalColor);
+
 // Логика для кнопок внутри Mini Apps Menu
 document.querySelectorAll(".mini-item").forEach(button => {
     button.addEventListener("click", function () {
@@ -59,12 +67,27 @@ document.querySelectorAll(".mini-item").forEach(button => {
             case "theme":
                 themeToggled = !themeToggled; // Переключаем флаг
                 
+                console.log("Theme toggled:", themeToggled);
+                console.log("Current background:", document.body.style.backgroundColor);
+                console.log("Current text color:", document.body.style.color);
+                
                 if (themeToggled) {
-                    document.body.style.backgroundColor = tg.colorScheme === "dark" ? "#222" : "#ddd"; 
-                    document.body.style.color = tg.colorScheme === "dark" ? "#fff" : "#000";
+                    let newBg = tg.colorScheme === "dark" ? "#222" : "#ddd";
+                    let newColor = tg.colorScheme === "dark" ? "#fff" : "#000";
+
+                    console.log("Applying new theme -> Background:", newBg, "Text:", newColor);
+                    
+                    document.body.style.backgroundColor = newBg;
+                    document.body.style.color = newColor;
+
+                    alert(`Theme ON:\nBackground: ${newBg}\nText: ${newColor}`);
                 } else {
+                    console.log("Reverting to original theme -> Background:", originalBackground, "Text:", originalColor);
+
                     document.body.style.backgroundColor = originalBackground;
                     document.body.style.color = originalColor;
+
+                    alert(`Theme OFF:\nBackground: ${originalBackground}\nText: ${originalColor}`);
                 }
                 break;
 
