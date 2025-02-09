@@ -15,11 +15,6 @@ let backBtn = document.getElementById("back-btn");
 let miniAppsBtn = document.getElementById("mini-apps-btn");
 let miniBackBtn = document.getElementById("mini-back-btn");
 
-// Запоминаем исходные цвета
-let themeToggled = false; // Флаг для отслеживания переключения
-let originalBackground = document.body.style.backgroundColor || "white";
-let originalColor = document.body.style.color || "black";
-
 // Открытие основного меню
 menuBtn.addEventListener("click", function () {
     menu.classList.add("active");
