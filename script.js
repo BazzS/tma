@@ -43,7 +43,7 @@ miniBackBtn.addEventListener("click", function () {
 
 // Переключение тем
 let themeToggled = false; // Флаг для отслеживания переключения
-let originalBackground = getComputedStyle(document.body).backgroundColor;
+let originalBackground = "blue"; // Устанавливаем начальный синий фон
 let originalColor = getComputedStyle(document.body).color;
 
 console.log("Original Background:", originalBackground);
@@ -67,9 +67,11 @@ document.querySelectorAll(".mini-item").forEach(button => {
                     console.log("Before change -> Background:", document.body.style.backgroundColor);
             
                     if (themeToggled) {
-                        document.body.style.backgroundColor = tg.themeParams.bg_color || "#1c1c1e"; 
-                        document.body.style.color = tg.themeParams.text_color || "#ffffff";
+                        // Устанавливаем стандартную тему Telegram
+                        document.body.style.backgroundColor = tg.themeParams.bg_color || "#ffffff"; 
+                        document.body.style.color = tg.themeParams.text_color || "#000000";
                     } else {
+                        // Возвращаемся к синему фону
                         document.body.style.backgroundColor = originalBackground; 
                         document.body.style.color = originalColor;
                     }
