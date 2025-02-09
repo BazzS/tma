@@ -2,7 +2,7 @@ let tg = window.Telegram.WebApp;
 tg.expand(); // Разворачиваем Mini App на весь экран
 
 // Получение информации о пользователе
-let user = tg.initDataUnsafe?.user;
+let user = tg.initDataUnsafe ? tg.initDataUnsafe.user : null;
 let userName = user?.first_name || user?.username || "Guest";
 document.getElementById("user-info").innerText = `Hello, ${userName}!`;
 
@@ -43,29 +43,32 @@ miniBackBtn.addEventListener("click", function () {
 
 // Переключение тем
 let themeToggled = false; // Флаг для отслеживания переключения
-let originalBackground = tg.themeParams?.bg_color || "blue";
+let originalBackground = tg.themeParams?.bg_color || "blue"; // Используем цвет фона из параметров темы
 let originalColor = getComputedStyle(document.body).color;
 
 console.log("Original Background:", originalBackground);
 console.log("Original Text Color:", originalColor);
 
 // Логика для кнопок внутри Mini Apps Menu
-document.querySelectorAll(".mini-item").forEach(button => {
-    button.addEventListener("click", function () {
-        let feature = this.dataset.feature;
+document.addEventListener("click", function(event) {
+    if (event.target.classList.contains("mini-item")) {
+        let feature = event.target.dataset.feature;
 
         switch (feature) {
             case "user-data":
-                tg.showAlert(`User: ${userName}`);
+                if (tg.showAlert) {
+                    tg.showAlert(`User: ${userName}`);
+                }
                 break;
 
             case "theme":
                 try {
                     themeToggled = !themeToggled; // Переключаем флаг
+            
                     if (themeToggled) {
                         // Устанавливаем стандартную тему Telegram
-                        document.body.style.backgroundColor = tg.themeParams.bg_color || "#ffffff"; 
-                        document.body.style.color = tg.themeParams.text_color || "#000000";
+                        document.body.style.backgroundColor = tg.themeParams?.bg_color || "#ffffff"; 
+                        document.body.style.color = tg.themeParams?.text_color || "#000000";
                     } else {
                         // Возвращаемся к исходному фону
                         document.body.style.backgroundColor = originalBackground; 
@@ -74,35 +77,47 @@ document.querySelectorAll(".mini-item").forEach(button => {
                     break; // Важно: break должен быть здесь, чтобы не перейти к следующему case
                 } catch (error) {
                     console.error("Theme switch error:", error);
-                    tg.showAlert(`⚠️ Ошибка: ${error.message}`);
+                    if (tg.showAlert) {
+                        tg.showAlert(`⚠️ Ошибка: ${error.message}`);
+                    }
                 }
-                break; // Дополнит
+                break;
 
             case "close":
-                tg.close();
+                if (tg.close) {
+                    tg.close();
+                }
                 break;
 
             case "send-data":
-                tg.sendData(JSON.stringify({ action: "sent from Mini Apps" }));
-                setTimeout(() => {
-                    tg.showAlert("✅ Data sent to bot!");
-                }, 500); // Небольшая задержка для уверенности, что данные отправлены
+                if (tg.sendData) {
+                    tg.sendData(JSON.stringify({ action: "sent from Mini Apps" }));
+                    setTimeout(() => {
+                        if (tg.showAlert) {
+                            tg.showAlert("✅ Data sent to bot!");
+                        }
+                    }, 500); // Небольшая задержка для уверенности, что данные отправлены
+                }
                 break;
 
             case "popup":
-                tg.showPopup({
-                    title: "Mini App Alert",
-                    message: "This is a Telegram Mini App popup!",
-                    buttons: [{ text: "OK", type: "ok" }]
-                });
+                if (tg.showPopup) {
+                    tg.showPopup({
+                        title: "Mini App Alert",
+                        message: "This is a Telegram Mini App popup!",
+                        buttons: [{ text: "OK", type: "ok" }]
+                    });
+                }
                 break;
 
             case "haptic":
-                tg.HapticFeedback.impactOccurred("medium");
+                if (tg.HapticFeedback && tg.HapticFeedback.impactOccurred) {
+                    tg.HapticFeedback.impactOccurred("medium");
+                }
                 break;
 
             default:
                 console.log("Unknown feature");
         }
-    });
+    }
 });
