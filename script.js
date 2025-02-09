@@ -60,19 +60,26 @@ document.querySelectorAll(".mini-item").forEach(button => {
                 break;
 
             case "theme":
-                themeToggled = !themeToggled; // Переключаем флаг
-                
-                console.log("Theme toggled:", themeToggled);
-                console.log("Before change -> Background:", document.body.style.backgroundColor);
+                try {
+                    themeToggled = !themeToggled; // Переключаем флаг
             
-                if (themeToggled) {
-                    document.body.style.backgroundColor = tg.themeParams.bg_color || "#1c1c1e"; 
-                    document.body.style.color = tg.themeParams.text_color || "#ffffff";
-                } else {
-                    document.body.style.backgroundColor = tg.themeParams.secondary_bg_color || "#ffffff"; 
-                    document.body.style.color = tg.themeParams.text_color || "#000000";
+                    console.log("Theme toggled:", themeToggled);
+                    console.log("Before change -> Background:", document.body.style.backgroundColor);
+            
+                    if (themeToggled) {
+                        document.body.style.backgroundColor = tg.themeParams.bg_color || "#1c1c1e"; 
+                        document.body.style.color = tg.themeParams.text_color || "#ffffff";
+                    } else {
+                        document.body.style.backgroundColor = tg.themeParams.secondary_bg_color || "#ffffff"; 
+                        document.body.style.color = tg.themeParams.text_color || "#000000";
+                    }
+            
+                    console.log("After change -> Background:", document.body.style.backgroundColor);
+                    break;
+                } catch (error) {
+                    console.error("Theme switch error:", error);
+                    tg.showAlert(`⚠️ Ошибка: ${error.message}`);
                 }
-                console.log("After change -> Background:", document.body.style.backgroundColor);
 
             case "close":
                 tg.close();
