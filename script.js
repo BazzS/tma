@@ -1,5 +1,10 @@
-let tg = window.Telegram.WebApp;
-tg.expand(); // Разворачиваем Mini App на весь экран
+// Проверяем, загружен ли Telegram Mini Apps API
+if (!window.Telegram || !window.Telegram.WebApp) {
+    console.error("Telegram Mini Apps API не загружен!");
+} else {
+    var tg = window.Telegram.WebApp;
+    tg.expand(); // Раскрываем Mini App на весь экран
+}
 
 // Получение информации о пользователе
 let user = tg.initDataUnsafe ? tg.initDataUnsafe.user : null;
@@ -41,16 +46,25 @@ miniBackBtn.addEventListener("click", function () {
     menu.classList.add("active");
 });
 
-// Переключение тем
-let theme = tg.colorScheme; // Получаем текущую тему
-console.log("Current theme:", theme); // Выведет "light" или "dark"
-// let originalBackground = tg.themeParams?.bg_color || "blue"; // Используем цвет фона из параметров темы
-// let originalColor = getComputedStyle(document.body).color;
+function applyTheme() {
+    console.log("Current theme:", tg.colorScheme);
 
-// console.log("Original Background:", originalBackground);
-// console.log("Original Text Color:", originalColor);
+    if (tg.colorScheme === "dark") {
+        document.body.style.backgroundColor = tg.themeParams.bg_color || "#1c1c1e"; 
+        document.body.style.color = tg.themeParams.text_color || "#ffffff";
+    } else {
+        document.body.style.backgroundColor = tg.themeParams.bg_color || "#ffffff"; 
+        document.body.style.color = tg.themeParams.text_color || "#000000";
+    }
+}
 
-// Логика для кнопок внутри Mini Apps Menu
+// Запускаем функцию сразу после загрузки
+applyTheme();
+
+// Отслеживаем изменение темы в Telegram
+tg.onEvent("themeChanged", applyTheme);
+
+// Логика для кнопок Mini Apps Menu
 document.addEventListener("click", function(event) {
     if (event.target.classList.contains("mini-item")) {
         let feature = event.target.dataset.feature;
@@ -63,13 +77,7 @@ document.addEventListener("click", function(event) {
                 break;
 
             case "theme":
-                if (tg.colorScheme === "dark") {
-                    document.body.style.backgroundColor = tg.themeParams.bg_color || "#1c1c1e"; 
-                    document.body.style.color = tg.themeParams.text_color || "#ffffff";
-                } else {
-                    document.body.style.backgroundColor = tg.themeParams.bg_color || "#ffffff"; 
-                    document.body.style.color = tg.themeParams.text_color || "#000000";
-                }
+                applyTheme(); // Применяем тему при нажатии
                 break;
 
             case "close":
@@ -85,7 +93,7 @@ document.addEventListener("click", function(event) {
                         if (tg.showAlert) {
                             tg.showAlert("✅ Data sent to bot!");
                         }
-                    }, 500); // Небольшая задержка для уверенности, что данные отправлены
+                    }, 500);
                 }
                 break;
 
@@ -106,7 +114,7 @@ document.addEventListener("click", function(event) {
                 break;
 
             default:
-                console.log("Unknown feature");
+                console.log("Unknown feature:", feature);
         }
     }
 });
