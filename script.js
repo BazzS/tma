@@ -43,7 +43,7 @@ miniBackBtn.addEventListener("click", function () {
 
 // Переключение тем
 let themeToggled = false; // Флаг для отслеживания переключения
-let originalBackground = rgb(0, 0, 255);
+let originalBackground = tg.themeParams.bg_color || "blue"; // Используем цвет фона из параметров темы
 let originalColor = getComputedStyle(document.body).color;
 
 console.log("Original Background:", originalBackground);
@@ -71,7 +71,7 @@ document.querySelectorAll(".mini-item").forEach(button => {
                         document.body.style.backgroundColor = tg.themeParams.bg_color || "#ffffff"; 
                         document.body.style.color = tg.themeParams.text_color || "#000000";
                     } else {
-                        // Возвращаемся к синему фону
+                        // Возвращаемся к исходному фону
                         document.body.style.backgroundColor = originalBackground; 
                         document.body.style.color = originalColor;
                     }
