@@ -52,3 +52,7 @@ body {
 .menu.active {
     display: flex;
 }
+
+body {
+    background-color: var(--tg-theme-bg-color);
+}
