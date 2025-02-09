@@ -63,28 +63,16 @@ document.querySelectorAll(".mini-item").forEach(button => {
                 themeToggled = !themeToggled; // Переключаем флаг
                 
                 console.log("Theme toggled:", themeToggled);
-                console.log("Current background:", document.body.style.backgroundColor);
-                console.log("Current text color:", document.body.style.color);
-                
+                console.log("Before change -> Background:", document.body.style.backgroundColor);
+            
                 if (themeToggled) {
-                    let newBg = tg.colorScheme === "dark" ? "#222" : "#ddd";
-                    let newColor = tg.colorScheme === "dark" ? "#fff" : "#000";
-
-                    console.log("Applying new theme -> Background:", newBg, "Text:", newColor);
-                    
-                    document.body.style.backgroundColor = newBg;
-                    document.body.style.color = newColor;
-
-                    alert(`Theme ON:\nBackground: ${newBg}\nText: ${newColor}`);
+                    document.body.style.backgroundColor = tg.themeParams.bg_color || "#1c1c1e"; 
+                    document.body.style.color = tg.themeParams.text_color || "#ffffff";
                 } else {
-                    console.log("Reverting to original theme -> Background:", originalBackground, "Text:", originalColor);
-
-                    document.body.style.backgroundColor = originalBackground;
-                    document.body.style.color = originalColor;
-
-                    alert(`Theme OFF:\nBackground: ${originalBackground}\nText: ${originalColor}`);
+                    document.body.style.backgroundColor = tg.themeParams.secondary_bg_color || "#ffffff"; 
+                    document.body.style.color = tg.themeParams.text_color || "#000000";
                 }
-                break;
+                console.log("After change -> Background:", document.body.style.backgroundColor);
 
             case "close":
                 tg.close();
