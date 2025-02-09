@@ -16,9 +16,9 @@ let miniAppsBtn = document.getElementById("mini-apps-btn");
 let miniBackBtn = document.getElementById("mini-back-btn");
 
 // Запоминаем исходные цвета
-let originalBackground = getComputedStyle(document.body).backgroundColor;
-let originalColor = getComputedStyle(document.body).color;
-let themeToggled = false; // Флаг для переключения тем
+let themeToggled = false; // Флаг для отслеживания переключения
+let originalBackground = document.body.style.backgroundColor || "white";
+let originalColor = document.body.style.color || "black";
 
 // Открытие основного меню
 menuBtn.addEventListener("click", function () {
@@ -57,14 +57,15 @@ document.querySelectorAll(".mini-item").forEach(button => {
                 break;
 
             case "theme":
-                if (!themeToggled) {
-                    document.body.style.backgroundColor = tg.colorScheme === "dark" ? "#000" : "#fff";
+                themeToggled = !themeToggled; // Переключаем флаг
+                
+                if (themeToggled) {
+                    document.body.style.backgroundColor = tg.colorScheme === "dark" ? "#222" : "#ddd"; 
                     document.body.style.color = tg.colorScheme === "dark" ? "#fff" : "#000";
                 } else {
                     document.body.style.backgroundColor = originalBackground;
                     document.body.style.color = originalColor;
                 }
-                themeToggled = !themeToggled;
                 break;
 
             case "close":
