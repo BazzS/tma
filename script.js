@@ -70,8 +70,8 @@ document.querySelectorAll(".mini-item").forEach(button => {
                         document.body.style.backgroundColor = tg.themeParams.bg_color || "#1c1c1e"; 
                         document.body.style.color = tg.themeParams.text_color || "#ffffff";
                     } else {
-                        document.body.style.backgroundColor = tg.themeParams.secondary_bg_color || "#ffffff"; 
-                        document.body.style.color = tg.themeParams.text_color || "#000000";
+                        document.body.style.backgroundColor = originalBackground; 
+                        document.body.style.color = originalColor;
                     }
             
                     console.log("After change -> Background:", document.body.style.backgroundColor);
