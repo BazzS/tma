@@ -50,12 +50,9 @@ console.log("Original Background:", originalBackground);
 console.log("Original Text Color:", originalColor);
 
 // Логика для кнопок внутри Mini Apps Menu
-// document.querySelectorAll(".mini-item").forEach(button => {
-//     button.addEventListener("click", function () {
-//         let feature = this.dataset.feature;
-document.addEventListener("click", function(event) {
-    if (event.target.classList.contains("mini-item")) {
-        let feature = event.target.dataset.feature;
+document.querySelectorAll(".mini-item").forEach(button => {
+    button.addEventListener("click", function () {
+        let feature = this.dataset.feature;
 
         switch (feature) {
             case "user-data":
